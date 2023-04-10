@@ -5,11 +5,15 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
+import androidx.camera.core.SurfaceRequest
+import androidx.camera.core.impl.CaptureConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -54,6 +58,9 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun startCamera() {
+    // keep the screen awake
+    window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
     val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
     cameraProviderFuture.addListener({
@@ -82,6 +89,7 @@ class MainActivity : AppCompatActivity() {
       } catch (exc: Exception) {
         Log.e(TAG, "Use case binding failed", exc)
       }
+
 
     }, ContextCompat.getMainExecutor(this))
   }
